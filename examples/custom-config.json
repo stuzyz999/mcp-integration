@@ -1,0 +1,236 @@
+{
+  "version": "1.0.0",
+  "description": "自定义MCP工具配置示例",
+  "settings": {
+    "autoTrigger": true,
+    "maxToolsPerGeneration": 5,
+    "timeoutMs": 10000,
+    "confidenceThreshold": 0.3,
+    "enableCaching": true,
+    "debugMode": true
+  },
+  "tools": {
+    "google-search": {
+      "enabled": true,
+      "serverUrl": "http://localhost:3001/mcp",
+      "timeout": 8000,
+      "maxRetries": 3,
+      "cacheTimeout": 600000,
+      "priority": 1.0,
+      "sceneTypes": ["search"],
+      "description": "Google搜索引擎 - 主要搜索工具",
+      "customSettings": {
+        "safeSearch": true,
+        "maxResults": 5,
+        "language": "zh-CN"
+      }
+    },
+    "bing-search": {
+      "enabled": true,
+      "serverUrl": "http://localhost:3002/mcp",
+      "timeout": 8000,
+      "maxRetries": 2,
+      "cacheTimeout": 600000,
+      "priority": 0.9,
+      "sceneTypes": ["search"],
+      "description": "Bing搜索引擎 - 备用搜索工具",
+      "customSettings": {
+        "market": "zh-CN",
+        "safeSearch": "Moderate"
+      }
+    },
+    "duckduckgo-search": {
+      "enabled": false,
+      "serverUrl": "http://localhost:3003/mcp",
+      "timeout": 6000,
+      "maxRetries": 2,
+      "cacheTimeout": 600000,
+      "priority": 0.8,
+      "sceneTypes": ["search"],
+      "description": "DuckDuckGo隐私搜索 - 隐私保护搜索",
+      "customSettings": {
+        "region": "cn-zh",
+        "noTracking": true
+      }
+    },
+    "weather-openweather": {
+      "enabled": true,
+      "serverUrl": "http://localhost:3010/mcp",
+      "timeout": 5000,
+      "maxRetries": 2,
+      "cacheTimeout": 300000,
+      "priority": 1.0,
+      "sceneTypes": ["weather"],
+      "description": "OpenWeatherMap天气服务",
+      "customSettings": {
+        "apiKey": "YOUR_API_KEY",
+        "units": "metric",
+        "language": "zh_cn"
+      }
+    },
+    "weather-accuweather": {
+      "enabled": false,
+      "serverUrl": "http://localhost:3011/mcp",
+      "timeout": 5000,
+      "maxRetries": 2,
+      "cacheTimeout": 300000,
+      "priority": 0.9,
+      "sceneTypes": ["weather"],
+      "description": "AccuWeather天气服务 - 备用天气源",
+      "customSettings": {
+        "apiKey": "YOUR_API_KEY",
+        "details": true
+      }
+    },
+    "physics-engine-advanced": {
+      "enabled": true,
+      "serverUrl": "http://localhost:3020/mcp",
+      "timeout": 8000,
+      "maxRetries": 2,
+      "cacheTimeout": 300000,
+      "priority": 1.0,
+      "sceneTypes": ["physical_interaction"],
+      "description": "高级物理交互模拟引擎",
+      "customSettings": {
+        "realism": "high",
+        "safetyMode": true,
+        "detailLevel": "detailed",
+        "anatomyAccuracy": true
+      }
+    },
+    "emotion-analyzer-advanced": {
+      "enabled": true,
+      "serverUrl": "http://localhost:3021/mcp",
+      "timeout": 6000,
+      "maxRetries": 2,
+      "cacheTimeout": 600000,
+      "priority": 1.0,
+      "sceneTypes": ["emotional_state"],
+      "description": "高级情感分析引擎",
+      "customSettings": {
+        "emotionModel": "plutchik",
+        "intensityLevels": 10,
+        "culturalContext": "chinese",
+        "personalityFactors": true
+      }
+    },
+    "relationship-tracker-pro": {
+      "enabled": true,
+      "serverUrl": "http://localhost:3022/mcp",
+      "timeout": 7000,
+      "maxRetries": 2,
+      "cacheTimeout": 900000,
+      "priority": 1.0,
+      "sceneTypes": ["relationship"],
+      "description": "专业关系追踪分析器",
+      "customSettings": {
+        "trackingDepth": "deep",
+        "memorySpan": "long_term",
+        "intimacyMetrics": true,
+        "compatibilityAnalysis": true
+      }
+    },
+    "memory-rag-enhanced": {
+      "enabled": true,
+      "serverUrl": "http://localhost:3030/mcp",
+      "timeout": 10000,
+      "maxRetries": 3,
+      "cacheTimeout": 1800000,
+      "priority": 1.0,
+      "sceneTypes": ["memory", "search"],
+      "description": "增强型RAG记忆搜索系统",
+      "customSettings": {
+        "embeddingModel": "text-embedding-ada-002",
+        "vectorDatabase": "pinecone",
+        "searchDepth": 20,
+        "semanticSimilarity": 0.8,
+        "temporalWeighting": true
+      }
+    },
+    "custom-scenario-analyzer": {
+      "enabled": true,
+      "serverUrl": "http://localhost:3040/mcp",
+      "timeout": 5000,
+      "maxRetries": 2,
+      "cacheTimeout": 300000,
+      "priority": 0.9,
+      "sceneTypes": ["custom_scenario"],
+      "description": "自定义场景分析器",
+      "customSettings": {
+        "scenarioTypes": ["fantasy", "sci-fi", "modern", "historical"],
+        "contextAwareness": true,
+        "adaptiveResponse": true
+      }
+    }
+  },
+  "sceneRules": {
+    "search": {
+      "primaryTool": "google-search",
+      "fallbackTools": ["bing-search", "duckduckgo-search"],
+      "loadBalancing": true,
+      "failoverEnabled": true
+    },
+    "weather": {
+      "primaryTool": "weather-openweather",
+      "fallbackTools": ["weather-accuweather"],
+      "locationDetection": true,
+      "autoRefresh": 300000
+    },
+    "physical_interaction": {
+      "primaryTool": "physics-engine-advanced",
+      "safetyChecks": true,
+      "contentFiltering": true,
+      "ageRestriction": 18
+    },
+    "emotional_state": {
+      "primaryTool": "emotion-analyzer-advanced",
+      "continuousTracking": true,
+      "moodPersistence": true
+    },
+    "relationship": {
+      "primaryTool": "relationship-tracker-pro",
+      "longTermMemory": true,
+      "crossCharacterTracking": true
+    }
+  },
+  "advancedSettings": {
+    "toolSelection": {
+      "strategy": "priority_weighted",
+      "loadBalancing": true,
+      "failoverEnabled": true,
+      "maxConcurrentCalls": 3
+    },
+    "caching": {
+      "strategy": "intelligent",
+      "maxCacheSize": "100MB",
+      "ttlVariation": true,
+      "compressionEnabled": true
+    },
+    "performance": {
+      "adaptiveTimeout": true,
+      "circuitBreaker": true,
+      "rateLimiting": true,
+      "metricsCollection": true
+    },
+    "security": {
+      "apiKeyRotation": true,
+      "requestSigning": true,
+      "contentValidation": true,
+      "auditLogging": true
+    }
+  },
+  "customScenes": {
+    "fantasy_magic": {
+      "keywords": ["魔法", "法术", "咒语", "魔力", "施法"],
+      "patterns": ["/施展.*?魔法/i", "/使用.*?法术/i"],
+      "contextClues": ["magic", "spell", "enchant", "mystical"],
+      "tools": ["fantasy-magic-system", "spell-checker"]
+    },
+    "sci_fi_tech": {
+      "keywords": ["科技", "未来", "机器人", "AI", "太空"],
+      "patterns": ["/科技.*?发展/i", "/未来.*?世界/i"],
+      "contextClues": ["technology", "future", "robot", "space"],
+      "tools": ["tech-analyzer", "future-predictor"]
+    }
+  }
+}

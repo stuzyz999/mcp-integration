@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>MCP Integration Configuration</title>
+    <style>
+        .mcp-config-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .mcp-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .mcp-section {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .mcp-section-header {
+            background: #e9ecef;
+            padding: 15px 20px;
+            border-bottom: 1px solid #dee2e6;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mcp-section-content {
+            padding: 20px;
+        }
+
+        .mcp-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .mcp-switch {
+            position: relative;
+            width: 50px;
+            height: 24px;
+            background: #ccc;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .mcp-switch.active {
+            background: #28a745;
+        }
+
+        .mcp-switch-handle {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+
+        .mcp-switch.active .mcp-switch-handle {
+            transform: translateX(26px);
+        }
+
+        .mcp-form-group {
+            margin-bottom: 15px;
+        }
+
+        .mcp-form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .mcp-form-group input,
+        .mcp-form-group select,
+        .mcp-form-group textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .mcp-form-group input:focus,
+        .mcp-form-group select:focus,
+        .mcp-form-group textarea:focus {
+            outline: none;
+            border-color: #80bdff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+        .mcp-tool-card {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .mcp-tool-header {
+            background: #f8f9fa;
+            padding: 15px;
+            border-bottom: 1px solid #dee2e6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mcp-tool-content {
+            padding: 15px;
+        }
+
+        .mcp-tool-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .mcp-status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .mcp-status-healthy { background: #28a745; }
+        .mcp-status-error { background: #dc3545; }
+        .mcp-status-disconnected { background: #6c757d; }
+
+        .mcp-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .mcp-button:hover {
+            background: #0056b3;
+        }
+
+        .mcp-button.secondary {
+            background: #6c757d;
+        }
+
+        .mcp-button.secondary:hover {
+            background: #545b62;
+        }
+
+        .mcp-button.danger {
+            background: #dc3545;
+        }
+
+        .mcp-button.danger:hover {
+            background: #c82333;
+        }
+
+        .mcp-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .mcp-stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #dee2e6;
+            text-align: center;
+        }
+
+        .mcp-stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .mcp-stat-label {
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+
+        .mcp-scene-rules {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 15px;
+        }
+
+        .mcp-scene-rule {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .mcp-priority-slider {
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .mcp-log-container {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .mcp-collapsible {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .mcp-collapsible.expanded {
+            max-height: 1000px;
+        }
+
+        .mcp-test-result {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        .mcp-test-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .mcp-test-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .mcp-loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #007bff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .mcp-tooltip {
+            position: relative;
+            cursor: help;
+        }
+
+        .mcp-tooltip:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="mcp-config-container">
+        <!-- 头部 -->
+        <div class="mcp-header">
+            <h1>🔧 MCP Integration Configuration</h1>
+            <p>Configure Model Context Protocol tools for enhanced RP generation</p>
+        </div>
+
+        <!-- 全局设置 -->
+        <div class="mcp-section">
+            <div class="mcp-section-header" onclick="toggleSection('global-settings')">
+                <span>🌐 Global Settings</span>
+                <span id="global-settings-arrow">▼</span>
+            </div>
+            <div id="global-settings" class="mcp-section-content">
+                <div class="mcp-toggle">
+                    <div class="mcp-switch" id="auto-trigger-switch" onclick="toggleSwitch('auto-trigger-switch')">
+                        <div class="mcp-switch-handle"></div>
+                    </div>
+                    <label>Auto-trigger MCP tools during generation</label>
+                </div>
+
+                <div class="mcp-form-group">
+                    <label for="confidence-threshold" class="mcp-tooltip" data-tooltip="Minimum confidence level to trigger tool calls">
+                        Confidence Threshold
+                    </label>
+                    <input type="range" id="confidence-threshold" min="0" max="1" step="0.1" value="0.4">
+                    <span id="confidence-value">0.4</span>
+                </div>
+
+                <div class="mcp-form-group">
+                    <label for="max-tools">Maximum Tools per Generation</label>
+                    <input type="number" id="max-tools" min="1" max="10" value="3">
+                </div>
+
+                <div class="mcp-form-group">
+                    <label for="timeout">Timeout (milliseconds)</label>
+                    <input type="number" id="timeout" min="1000" max="30000" step="1000" value="8000">
+                </div>
+
+                <div class="mcp-toggle">
+                    <div class="mcp-switch" id="enable-caching-switch" onclick="toggleSwitch('enable-caching-switch')">
+                        <div class="mcp-switch-handle"></div>
+                    </div>
+                    <label>Enable result caching</label>
+                </div>
+
+                <div class="mcp-toggle">
+                    <div class="mcp-switch" id="debug-mode-switch" onclick="toggleSwitch('debug-mode-switch')">
+                        <div class="mcp-switch-handle"></div>
+                    </div>
+                    <label>Debug mode</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- 工具配置 -->
+        <div class="mcp-section">
+            <div class="mcp-section-header" onclick="toggleSection('tools-config')">
+                <span>🛠️ MCP Tools Configuration</span>
+                <span id="tools-config-arrow">▼</span>
+            </div>
+            <div id="tools-config" class="mcp-section-content">
+                <div id="tools-list">
+                    <!-- 工具列表将通过JavaScript动态生成 -->
+                </div>
+                <button class="mcp-button" onclick="addNewTool()">+ Add New Tool</button>
+            </div>
+        </div>
+
+        <!-- 场景规则 -->
+        <div class="mcp-section">
+            <div class="mcp-section-header" onclick="toggleSection('scene-rules')">
+                <span>🎭 Scene Rules</span>
+                <span id="scene-rules-arrow">▼</span>
+            </div>
+            <div id="scene-rules" class="mcp-section-content mcp-collapsible">
+                <div class="mcp-scene-rules">
+                    <h4>Scene Type Mappings</h4>
+                    <div id="scene-mappings">
+                        <!-- 场景映射将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 统计信息 -->
+        <div class="mcp-section">
+            <div class="mcp-section-header" onclick="toggleSection('statistics')">
+                <span>📊 Statistics</span>
+                <span id="statistics-arrow">▼</span>
+            </div>
+            <div id="statistics" class="mcp-section-content mcp-collapsible">
+                <div class="mcp-stats-grid" id="stats-grid">
+                    <!-- 统计信息将通过JavaScript动态生成 -->
+                </div>
+                <button class="mcp-button secondary" onclick="refreshStats()">Refresh Stats</button>
+                <button class="mcp-button secondary" onclick="clearCache()">Clear Cache</button>
+            </div>
+        </div>
+
+        <!-- 测试工具 -->
+        <div class="mcp-section">
+            <div class="mcp-section-header" onclick="toggleSection('testing')">
+                <span>🧪 Testing Tools</span>
+                <span id="testing-arrow">▼</span>
+            </div>
+            <div id="testing" class="mcp-section-content mcp-collapsible">
+                <div class="mcp-form-group">
+                    <label for="test-text">Test Text for Scene Analysis</label>
+                    <textarea id="test-text" rows="3" placeholder="Enter text to analyze for scene detection..."></textarea>
+                </div>
+                <button class="mcp-button" onclick="testSceneAnalysis()">Analyze Scene</button>
+                <div id="analysis-result"></div>
+
+                <hr style="margin: 20px 0;">
+
+                <div class="mcp-form-group">
+                    <label for="test-tool">Test Tool Call</label>
+                    <select id="test-tool">
+                        <option value="">Select a tool...</option>
+                    </select>
+                </div>
+                <div class="mcp-form-group">
+                    <label for="test-args">Arguments (JSON)</label>
+                    <textarea id="test-args" rows="3" placeholder='{"query": "test"}'></textarea>
+                </div>
+                <button class="mcp-button" onclick="testToolCall()">Test Tool</button>
+                <div id="tool-test-result"></div>
+            </div>
+        </div>
+
+        <!-- 日志 -->
+        <div class="mcp-section">
+            <div class="mcp-section-header" onclick="toggleSection('logs')">
+                <span>📝 Logs</span>
+                <span id="logs-arrow">▼</span>
+            </div>
+            <div id="logs" class="mcp-section-content mcp-collapsible">
+                <div class="mcp-log-container" id="log-container">
+                    <!-- 日志将通过JavaScript动态更新 -->
+                </div>
+                <button class="mcp-button secondary" onclick="clearLogs()">Clear Logs</button>
+            </div>
+        </div>
+
+        <!-- 操作按钮 -->
+        <div style="text-align: center; margin-top: 30px;">
+            <button class="mcp-button" onclick="saveConfiguration()">💾 Save Configuration</button>
+            <button class="mcp-button secondary" onclick="loadConfiguration()">🔄 Reload Configuration</button>
+            <button class="mcp-button danger" onclick="resetConfiguration()">⚠️ Reset to Defaults</button>
+        </div>
+    </div>
+
+    <script src="mcp-config.js"></script>
+</body>
+</html>

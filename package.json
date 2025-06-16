@@ -1,0 +1,56 @@
+{
+  "name": "sillytavern-mcp-integration",
+  "version": "1.0.0",
+  "description": "SillyTavern MCP Integration Plugin - Intelligent MCP tool calling for enhanced RP generation",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint src/ ui/ --ext .js",
+    "format": "prettier --write src/ ui/ *.js *.md"
+  },
+  "keywords": [
+    "sillytavern",
+    "mcp",
+    "model-context-protocol",
+    "ai",
+    "roleplay",
+    "chatbot",
+    "plugin",
+    "integration"
+  ],
+  "author": "stuzyz999",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stuzyz999/sillytavern-mcp-integration.git"
+  },
+  "bugs": {
+    "url": "https://github.com/stuzyz999/sillytavern-mcp-integration/issues"
+  },
+  "homepage": "https://github.com/stuzyz999/sillytavern-mcp-integration#readme",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "express": "^4.18.0",
+    "node-fetch": "^3.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "prettier": "^2.8.0"
+  },
+  "peerDependencies": {
+    "sillytavern": ">=1.12.0"
+  },
+  "files": [
+    "index.js",
+    "src/",
+    "ui/",
+    "docs/",
+    "examples/",
+    "README.md",
+    "LICENSE"
+  ]
+}

@@ -1,0 +1,133 @@
+{
+  "name": "GitHub MCP Server Configuration",
+  "description": "Configuration for GitHub MCP Server integration",
+  "version": "1.0.0",
+  "server": {
+    "type": "docker",
+    "image": "ghcr.io/github/github-mcp-server",
+    "port": 3100,
+    "timeout": 10000,
+    "maxRetries": 3
+  },
+  "authentication": {
+    "type": "personal_access_token",
+    "tokenEnvVar": "GITHUB_PERSONAL_ACCESS_TOKEN",
+    "scopes": [
+      "repo",
+      "read:user",
+      "read:org",
+      "read:project"
+    ]
+  },
+  "toolsets": {
+    "enabled": [
+      "context",
+      "repos", 
+      "issues",
+      "pull_requests",
+      "users"
+    ],
+    "disabled": [
+      "code_security",
+      "notifications",
+      "secret_protection",
+      "experiments"
+    ]
+  },
+  "settings": {
+    "readOnly": false,
+    "dynamicToolsets": false,
+    "githubHost": "https://api.github.com"
+  },
+  "sceneMapping": {
+    "search": {
+      "tools": [
+        "search_repositories",
+        "search_code", 
+        "search_issues",
+        "search_users"
+      ],
+      "priority": 0.9
+    },
+    "memory": {
+      "tools": [
+        "get_repository",
+        "get_file_contents",
+        "list_repository_files",
+        "get_issue",
+        "get_pull_request"
+      ],
+      "priority": 0.8
+    },
+    "code_analysis": {
+      "tools": [
+        "get_file_contents",
+        "list_repository_files",
+        "get_repository_languages",
+        "get_repository_topics"
+      ],
+      "priority": 0.7
+    }
+  },
+  "docker": {
+    "runCommand": [
+      "docker",
+      "run",
+      "-i",
+      "--rm",
+      "-e",
+      "GITHUB_PERSONAL_ACCESS_TOKEN",
+      "-e", 
+      "GITHUB_TOOLSETS=repos,issues,pull_requests,users",
+      "ghcr.io/github/github-mcp-server"
+    ],
+    "environment": {
+      "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}",
+      "GITHUB_TOOLSETS": "repos,issues,pull_requests,users",
+      "GITHUB_READ_ONLY": "false"
+    }
+  },
+  "examples": {
+    "search_repositories": {
+      "description": "搜索GitHub仓库",
+      "query": "language:javascript stars:>1000",
+      "sort": "stars",
+      "order": "desc"
+    },
+    "search_code": {
+      "description": "搜索代码片段",
+      "query": "function addEventListener in:file language:js",
+      "sort": "indexed"
+    },
+    "get_repository": {
+      "description": "获取仓库信息",
+      "owner": "microsoft",
+      "repo": "vscode"
+    },
+    "get_file_contents": {
+      "description": "获取文件内容",
+      "owner": "microsoft",
+      "repo": "vscode", 
+      "path": "package.json"
+    },
+    "search_issues": {
+      "description": "搜索问题和PR",
+      "query": "is:issue is:open label:bug",
+      "sort": "created",
+      "order": "desc"
+    }
+  },
+  "integration": {
+    "sillytavern": {
+      "eventHooks": [
+        "generation_started",
+        "GENERATE_BEFORE_COMBINE_PROMPTS"
+      ],
+      "contextInjection": {
+        "enabled": true,
+        "format": "markdown",
+        "maxLength": 2000
+      }
+    }
+  }
+}
