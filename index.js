@@ -4,8 +4,9 @@
  */
 
 // 导入SillyTavern扩展API
-import { event_types, eventSource, saveSettingsDebounced } from "../../../../script.js";
-import { extension_settings, getContext } from "../../../extensions.js";
+import console from "console";
+import { saveSettingsDebounced } from "../../../../script.js";
+import { extension_settings } from "../../../extensions.js";
 
 // 插件配置
 const extensionName = "mcp-integration";
@@ -324,18 +325,21 @@ jQuery(async function() {
         // 创建MCP引擎
         mcpEngine = new ClientMcpIntegrationEngine();
 
-        // 初始化设置界面
-        await initializeSettingsUI();
-
-        // 监听聊天事件
-        eventSource.on(event_types.CHAT_CHANGED, onChatChanged);
-        eventSource.on(event_types.MESSAGE_SENT, onMessageSent);
-        eventSource.on(event_types.GENERATION_STARTED, onGenerationStarted);
+        // 延迟初始化设置界面，等待DOM完全加载
+        setTimeout(async () => {
+            try {
+                await initializeSettingsUI();
+                console.log('MCP Integration Plugin: 设置界面初始化完成');
+            } catch (error) {
+                console.warn('MCP Integration Plugin: 设置界面初始化失败', error);
+            }
+        }, 1000);
 
         console.log('MCP Integration Plugin: 初始化完成');
 
     } catch (error) {
         console.error('MCP Integration Plugin: 初始化失败', error);
+        throw error; // 重新抛出错误，让SillyTavern知道插件加载失败
     }
 });
 
@@ -343,21 +347,18 @@ jQuery(async function() {
  * 初始化设置界面
  */
 async function initializeSettingsUI() {
-    // 等待设置界面加载
-    await new Promise(resolve => {
-        const checkInterval = setInterval(() => {
-            if ($('#mcp_integration_enabled').length > 0) {
-                clearInterval(checkInterval);
-                resolve();
-            }
-        }, 100);
-    });
+    // 简单检查设置界面是否存在
+    if ($('#mcp_integration_enabled').length > 0) {
+        // 加载设置到界面
+        loadSettingsToUI();
 
-    // 加载设置到界面
-    loadSettingsToUI();
+        // 绑定事件监听器
+        bindSettingsEvents();
 
-    // 绑定事件监听器
-    bindSettingsEvents();
+        console.log('MCP Integration: 设置界面已绑定');
+    } else {
+        console.warn('MCP Integration: 设置界面元素未找到');
+    }
 }
 
 /**
@@ -534,38 +535,5 @@ function updateStatsDisplay() {
     }
 }
 
-/**
- * 事件处理函数
- */
-function onChatChanged() {
-    if (getSettings().debugMode) {
-        console.log('MCP Integration: 聊天已切换');
-    }
-}
-
-async function onMessageSent() {
-    if (!getSettings().enabled || !getSettings().autoTrigger) return;
-
-    try {
-        const context = getContext();
-        const lastMessage = context.chat[context.chat.length - 1];
-
-        if (lastMessage && lastMessage.is_user) {
-            const result = await mcpEngine.processUserInput(lastMessage.mes, {
-                chatHistory: context.chat.slice(-5) // 最近5条消息作为上下文
-            });
-
-            if (result && getSettings().debugMode) {
-                console.log('MCP Integration: 处理结果', result);
-            }
-        }
-    } catch (error) {
-        console.error('MCP Integration: 消息处理失败', error);
-    }
-}
-
-function onGenerationStarted() {
-    if (getSettings().debugMode) {
-        console.log('MCP Integration: 生成开始');
-    }
-}
+// 插件加载完成
+console.log('MCP Integration Plugin: 插件文件加载完成');

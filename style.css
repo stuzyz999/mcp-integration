@@ -1,0 +1,154 @@
+/* MCP Integration Plugin 样式文件 */
+
+.mcp-integration-settings {
+    margin: 10px 0;
+}
+
+.mcp-integration_block {
+    margin: 10px 0;
+    padding: 5px 0;
+}
+
+.mcp-integration_block label {
+    display: inline-block;
+    min-width: 120px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.mcp-integration_block input[type="range"] {
+    width: 200px;
+    margin-right: 10px;
+}
+
+.mcp-integration_block input[type="number"],
+.mcp-integration_block input[type="text"] {
+    width: 200px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+/* MCP工具配置样式 */
+.mcp-tools-container {
+    margin-top: 10px;
+}
+
+.mcp-tool-config {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: var(--SmartThemeBodyColor);
+}
+
+.mcp-tool-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.mcp-tool-header input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.mcp-tool-header label {
+    margin-right: 15px;
+    min-width: auto;
+}
+
+.mcp-tool-description {
+    color: var(--SmartThemeQuoteColor);
+    font-style: italic;
+    font-size: 0.9em;
+}
+
+.mcp-tool-details {
+    margin-left: 25px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.mcp-tool-setting {
+    display: flex;
+    flex-direction: column;
+}
+
+.mcp-tool-setting label {
+    font-size: 0.9em;
+    margin-bottom: 3px;
+    min-width: auto;
+}
+
+.mcp-tool-setting input {
+    width: 100%;
+}
+
+/* 统计信息样式 */
+#mcp_stats_container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.mcp-stat-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 10px;
+    background-color: var(--SmartThemeBlurTintColor);
+    border-radius: 3px;
+}
+
+.mcp-stat-item span:first-child {
+    font-weight: bold;
+}
+
+.mcp-stat-item span:last-child {
+    color: var(--SmartThemeQuoteColor);
+}
+
+/* 按钮样式 */
+#mcp_clear_cache,
+#mcp_refresh_stats {
+    margin: 5px 5px 5px 0;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .mcp-tool-details {
+        grid-template-columns: 1fr;
+    }
+    
+    #mcp_stats_container {
+        grid-template-columns: 1fr;
+    }
+    
+    .mcp-integration_block input[type="range"],
+    .mcp-integration_block input[type="number"],
+    .mcp-integration_block input[type="text"] {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+/* 深色主题适配 */
+[data-theme="dark"] .mcp-tool-config {
+    border-color: #555;
+}
+
+[data-theme="dark"] .mcp-integration_block input[type="number"],
+[data-theme="dark"] .mcp-integration_block input[type="text"] {
+    background-color: var(--SmartThemeBodyColor);
+    color: var(--SmartThemeFontColor);
+    border-color: #555;
+}
+
+/* 置信度阈值显示 */
+#mcp_confidence_value {
+    font-weight: bold;
+    color: var(--SmartThemeQuoteColor);
+    min-width: 30px;
+    display: inline-block;
+}
