@@ -4,7 +4,6 @@
  */
 
 // 导入SillyTavern扩展API
-import console from "console";
 import { saveSettingsDebounced } from "../../../../script.js";
 import { extension_settings } from "../../../extensions.js";
 
@@ -325,15 +324,8 @@ jQuery(async function() {
         // 创建MCP引擎
         mcpEngine = new ClientMcpIntegrationEngine();
 
-        // 延迟初始化设置界面，等待DOM完全加载
-        setTimeout(async () => {
-            try {
-                await initializeSettingsUI();
-                console.log('MCP Integration Plugin: 设置界面初始化完成');
-            } catch (error) {
-                console.warn('MCP Integration Plugin: 设置界面初始化失败', error);
-            }
-        }, 1000);
+        // 渲染设置界面到扩展管理面板
+        await renderSettingsUI();
 
         console.log('MCP Integration Plugin: 初始化完成');
 
@@ -342,6 +334,27 @@ jQuery(async function() {
         throw error; // 重新抛出错误，让SillyTavern知道插件加载失败
     }
 });
+
+/**
+ * 渲染设置界面到扩展管理面板
+ */
+async function renderSettingsUI() {
+    try {
+        // 使用jQuery直接加载settings.html文件（类似st-input-helper的方式）
+        const settingsHtml = await $.get(`${extensionFolderPath}/settings.html`);
+
+        // 将设置界面添加到third-party扩展设置面板
+        $('#extensions_settings2').append(settingsHtml);
+
+        // 初始化设置界面
+        await initializeSettingsUI();
+
+        console.log('MCP Integration Plugin: 设置界面渲染完成');
+    } catch (error) {
+        console.error('MCP Integration Plugin: 设置界面渲染失败', error);
+        throw error;
+    }
+}
 
 /**
  * 初始化设置界面
