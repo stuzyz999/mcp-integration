@@ -1,0 +1,12 @@
+{
+    "display_name": "MCP Integration",
+    "loading_order": 15,
+    "requires": [],
+    "optional": [],
+    "js": "index.js",
+    "css": "style.css",
+    "author": "MCP Integration Team",
+    "version": "1.0.0",
+    "homePage": "https://github.com/SillyTavern/mcp-integration",
+    "description": "智能MCP工具集成插件，在AI RP内容生成过程中自动识别场景并调用相应的MCP工具"
+}

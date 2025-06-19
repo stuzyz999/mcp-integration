@@ -1,0 +1,154 @@
+<!-- MCP Integration Plugin 设置页面 -->
+<div class="mcp-integration-settings">
+    <div class="inline-drawer">
+        <div class="inline-drawer-toggle inline-drawer-header">
+            <b>MCP Integration</b>
+            <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
+        </div>
+        <div class="inline-drawer-content">
+            <!-- 主开关 -->
+            <div class="mcp-integration_block flex-container">
+                <input id="mcp_integration_enabled" type="checkbox" />
+                <label for="mcp_integration_enabled">启用MCP集成插件</label>
+            </div>
+            
+            <div class="mcp-integration_block flex-container">
+                <input id="mcp_integration_auto_trigger" type="checkbox" />
+                <label for="mcp_integration_auto_trigger">自动触发场景分析</label>
+            </div>
+
+            <!-- 基础配置 -->
+            <div class="mcp-integration_block">
+                <label for="mcp_confidence_threshold">置信度阈值</label>
+                <input id="mcp_confidence_threshold" type="range" min="0.1" max="1.0" step="0.1" value="0.4" />
+                <span id="mcp_confidence_value">0.4</span>
+            </div>
+
+            <div class="mcp-integration_block">
+                <label for="mcp_max_tools">最大工具数量</label>
+                <input id="mcp_max_tools" type="number" min="1" max="10" value="3" />
+            </div>
+
+            <div class="mcp-integration_block">
+                <label for="mcp_timeout">超时时间 (毫秒)</label>
+                <input id="mcp_timeout" type="number" min="1000" max="30000" step="1000" value="8000" />
+            </div>
+
+            <div class="mcp-integration_block flex-container">
+                <input id="mcp_enable_caching" type="checkbox" />
+                <label for="mcp_enable_caching">启用缓存</label>
+            </div>
+
+            <div class="mcp-integration_block flex-container">
+                <input id="mcp_debug_mode" type="checkbox" />
+                <label for="mcp_debug_mode">调试模式</label>
+            </div>
+
+            <hr class="sysHR" />
+
+            <!-- MCP工具配置 -->
+            <div class="mcp-integration_block">
+                <b>MCP工具配置</b>
+                <div class="mcp-tools-container">
+                    <!-- 天气API工具 -->
+                    <div class="mcp-tool-config" data-tool="weather-api">
+                        <div class="mcp-tool-header">
+                            <input id="tool_weather_enabled" type="checkbox" />
+                            <label for="tool_weather_enabled"><strong>天气API</strong></label>
+                            <span class="mcp-tool-description">获取实时天气信息</span>
+                        </div>
+                        <div class="mcp-tool-details">
+                            <div class="mcp-tool-setting">
+                                <label for="tool_weather_url">服务器URL</label>
+                                <input id="tool_weather_url" type="text" value="http://localhost:3001/mcp" />
+                            </div>
+                            <div class="mcp-tool-setting">
+                                <label for="tool_weather_timeout">超时 (毫秒)</label>
+                                <input id="tool_weather_timeout" type="number" min="1000" max="30000" value="5000" />
+                            </div>
+                            <div class="mcp-tool-setting">
+                                <label for="tool_weather_priority">优先级</label>
+                                <input id="tool_weather_priority" type="number" min="0" max="1" step="0.1" value="1" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 网络搜索工具 -->
+                    <div class="mcp-tool-config" data-tool="web-search">
+                        <div class="mcp-tool-header">
+                            <input id="tool_search_enabled" type="checkbox" />
+                            <label for="tool_search_enabled"><strong>网络搜索</strong></label>
+                            <span class="mcp-tool-description">搜索网络信息</span>
+                        </div>
+                        <div class="mcp-tool-details">
+                            <div class="mcp-tool-setting">
+                                <label for="tool_search_url">服务器URL</label>
+                                <input id="tool_search_url" type="text" value="http://localhost:3002/mcp" />
+                            </div>
+                            <div class="mcp-tool-setting">
+                                <label for="tool_search_timeout">超时 (毫秒)</label>
+                                <input id="tool_search_timeout" type="number" min="1000" max="30000" value="8000" />
+                            </div>
+                            <div class="mcp-tool-setting">
+                                <label for="tool_search_priority">优先级</label>
+                                <input id="tool_search_priority" type="number" min="0" max="1" step="0.1" value="0.9" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 对话记忆工具 -->
+                    <div class="mcp-tool-config" data-tool="conversation-memory">
+                        <div class="mcp-tool-header">
+                            <input id="tool_memory_enabled" type="checkbox" />
+                            <label for="tool_memory_enabled"><strong>对话记忆</strong></label>
+                            <span class="mcp-tool-description">检索对话记忆</span>
+                        </div>
+                        <div class="mcp-tool-details">
+                            <div class="mcp-tool-setting">
+                                <label for="tool_memory_url">服务器URL</label>
+                                <input id="tool_memory_url" type="text" value="http://localhost:3003/mcp" />
+                            </div>
+                            <div class="mcp-tool-setting">
+                                <label for="tool_memory_timeout">超时 (毫秒)</label>
+                                <input id="tool_memory_timeout" type="number" min="1000" max="30000" value="5000" />
+                            </div>
+                            <div class="mcp-tool-setting">
+                                <label for="tool_memory_priority">优先级</label>
+                                <input id="tool_memory_priority" type="number" min="0" max="1" step="0.1" value="1" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="sysHR" />
+
+            <!-- 统计信息 -->
+            <div class="mcp-integration_block">
+                <b>统计信息</b>
+                <div id="mcp_stats_container">
+                    <div class="mcp-stat-item">
+                        <span>总调用次数:</span>
+                        <span id="mcp_total_calls">0</span>
+                    </div>
+                    <div class="mcp-stat-item">
+                        <span>成功调用:</span>
+                        <span id="mcp_successful_calls">0</span>
+                    </div>
+                    <div class="mcp-stat-item">
+                        <span>失败调用:</span>
+                        <span id="mcp_failed_calls">0</span>
+                    </div>
+                    <div class="mcp-stat-item">
+                        <span>缓存命中:</span>
+                        <span id="mcp_cache_hits">0</span>
+                    </div>
+                </div>
+                <button id="mcp_clear_cache" class="menu_button">清理缓存</button>
+                <button id="mcp_refresh_stats" class="menu_button">刷新统计</button>
+            </div>
+
+            <hr class="sysHR" />
+        </div>
+    </div>
+</div>
